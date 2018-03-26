@@ -22,10 +22,17 @@ class DetailsViewController: UIViewController, TappableLabelDelegate, Storyboard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let prevButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(prevButtonTapped))
+        navigationItem.leftBarButtonItem = prevButtonItem
+        
         output.triggerViewIsReady()
     }
 
 
+    @objc func prevButtonTapped() {
+        output.close(animated: true)
+    }
+    
     // MARK: DetailsViewInput
 
     func didReceiveTouch() {

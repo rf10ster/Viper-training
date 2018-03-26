@@ -20,7 +20,7 @@
 @implementation GenericRole
 
 - (id)initWithData:(NSDictionary *)data {
-    if (self) {
+    if (self = [super init]) {
         self.name = [data objectForKey:@"name"];
         self.biography = [data objectForKey:@"biography"];
         self.dateOfBirth = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"dateOfBirth"] doubleValue]];

@@ -13,3 +13,4 @@ protocol MoviesListPresenterProtocol {
     func fetchFilms()
     func selectFilm(with index: Int)
 }
+

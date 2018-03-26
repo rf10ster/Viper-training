@@ -8,33 +8,31 @@
 
 import XCTest
 
-@testable
-import MovieWebService
+@testable import MovieWebService
 
 class DetailsModuleBuilderTests: XCTestCase {
 
     func testBuildViewController() {
 
         // given
-        let builder = DetailsModuleBuilder()
+        let data = Film()
+        let builder = DetailsModuleBuilder(data: data)
+        let rootController = UINavigationController()
+        let router = Router(rootController: rootController)
 
         // when
-        let viewController = builder.build(with: Film()) as! DetailsViewController
+        let viewController = builder.build(with: router)?.toPresent() as? DetailsViewController
 
         // then
-        XCTAssertNotNil(viewController.output)
-        XCTAssertTrue(viewController.output is DetailsPresenter)
+        XCTAssertNotNil(viewController)
+        XCTAssertNotNil(viewController?.output)
+        XCTAssertTrue(viewController?.output is DetailsPresenter)
 
-        let presenter: DetailsPresenter = viewController.output as! DetailsPresenter
-        XCTAssertNotNil(presenter.view)
+        let presenter: DetailsPresenter = viewController?.output as! DetailsPresenter
+        XCTAssertNotNil(presenter.userInterface)
         XCTAssertNotNil(presenter.router)
         XCTAssertTrue(presenter.router is DetailsRouter)
 
-        let interactor: DetailsInteractor = presenter.interactor as! DetailsInteractor
-        XCTAssertNotNil(interactor.output)
-
-        let router: DetailsRouter = presenter.router as! DetailsRouter
-        XCTAssertNotNil(router.viewController)
     }
 
 }

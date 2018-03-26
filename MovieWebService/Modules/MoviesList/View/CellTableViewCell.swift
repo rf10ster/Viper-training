@@ -14,15 +14,32 @@ class CellTableViewCell: UITableViewCell {
     @IBOutlet weak var rating: UILabel!
     @IBOutlet weak var ratingName: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func configure(dataItem: Film) {
+        let cell = self
+        
+        cell.name.text = dataItem.name
+        
+        // Oct 12, 2012
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        cell.date.text = formatter.string(from: dataItem.releaseDate)
+        cell.rating.text = String(describing: dataItem.rating)
+        let ratingName: String
+        switch dataItem.filmRating {
+        case G:
+            ratingName = "G"
+        case PG:
+            ratingName = "PG"
+        case PG13:
+            ratingName = "PG13"
+        case R:
+            ratingName = "R"
+        case NC17:
+            ratingName = "NC17"
+        default:
+            ratingName = "G"
+        }
+        cell.ratingName.text = ratingName
     }
 
 }

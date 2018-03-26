@@ -35,11 +35,19 @@ extension MoviesListViewController: MovieLislViewInterface {
     // MARK: - MovieLislViewInterface
     
     func setupInitialState() {
-        navigationItem.title = "RootViewController";
+        navigationItem.title = "RootViewController"
         view.backgroundColor = UIColor.white
-        
+
         tableView.delegate = self
         tableView.dataSource = self
+        
+        if #available(iOS 11, *) {
+            self.navigationItem.largeTitleDisplayMode = .never
+            self.tableView.contentInsetAdjustmentBehavior = .never
+            self.tableView.estimatedRowHeight = 0
+            self.tableView.estimatedSectionHeaderHeight = 0
+            self.tableView.estimatedSectionFooterHeight = 0
+        }
     }
     
     func showLoading() {
@@ -61,10 +69,7 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: view.window != nil)
-        /*
-         DetailsModuleBuilder *builder = [DetailsModuleBuilder new];
-         [appDelegate.navigationController pushViewController:[builder buildWith:film] animated:YES];
-         */
+        output.selectFilm(with: indexPath.row)
     }
     
     // MARK: - UITableViewDataSource
@@ -74,7 +79,13 @@ extension MoviesListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //@property (nonatomic, strong) IBOutlet CellTableViewCell *movieCell;
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "CellTableViewCell", for: indexPath) as? CellTableViewCell,
+            let dataItem = data?.films[indexPath.row] {
+            cell.configure(dataItem: dataItem)
+            return cell
+        }
+        
+        
         return UITableViewCell()
     }
     

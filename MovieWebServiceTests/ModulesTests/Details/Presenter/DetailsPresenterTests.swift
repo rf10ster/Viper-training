@@ -15,44 +15,42 @@ import MovieWebService
 class DetailsPresenterTests: XCTestCase {
 
     var presenter: DetailsPresenter!
-    var router: MockRouter!
-    var interactor: MockInteractor!
-    var view: MockView!
+    var userInterface: MockDetailsView!
 	
     override func setUp() {
         super.setUp()
-		
-        router = MockRouter()
-        interactor = MockInteractor()
-        view = MockView()
-
-        presenter = DetailsPresenter()
-        presenter.router = router
-        presenter.interactor = interactor
-        presenter.view = view
+		let router = Router(rootController: UINavigationController())
+        let dataHolder = FilmServiceDataObject()
+        let film = Film(data: dataHolder.data)
+        userInterface = MockDetailsView()
+        presenter = DetailsPresenter(router: router, film: film)
+        presenter.userInterface = userInterface
     }
 
     override func tearDown() {
-        router = nil
-        interactor = nil
-        view = nil
-        presenter = nil
-
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-
-    // MARK: - Mock
-
-    class MockInteractor: DetailsInteractorInput {
-
+    
+    func testThatPresenterHandlesViewReadyEvent() {
+        // given
+        
+        // when
+        presenter.triggerViewIsReady()
+        
+        // then
+        XCTAssertTrue(userInterface.setupWithDataCalled)
     }
-
-    class MockRouter: DetailsRouterInput {
-
-    }
-
-    class MockView: DetailsViewInput {
-		
+    
+    func testThatPresenterUpdatesViewOnExpand() {
+        // given
+        
+        // when
+        presenter.expandData()
+        
+        // then
+        XCTAssertNotNil(userInterface.data)
+        XCTAssertTrue(userInterface.data?.isExpanded ?? false)
     }
 
 }

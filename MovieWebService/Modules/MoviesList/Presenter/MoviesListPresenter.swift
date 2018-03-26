@@ -11,9 +11,9 @@ import Foundation
 class MoviesListPresenter {
     weak var userInterface : MovieLislViewInterface?
     var interactor: MoviesListInteractorProtocol
-    var router: RouterProtocol
+    let listRouter: MoviesListRouter
     init(interactor: MoviesListInteractorProtocol, router: RouterProtocol) {
-        self.router = router
+        listRouter = MoviesListRouter(router: router)
         self.interactor = interactor
     }
 }
@@ -29,10 +29,7 @@ extension MoviesListPresenter: MoviesListPresenterProtocol {
     func selectFilm(with index: Int) {
         guard interactor.films.count > index && index >= 0 else { return }
         let film = interactor.films[index]
-        
-        let detailsBuilder = DetailsModuleBuilder(data: film)
-        let detailsModule = detailsBuilder.build(with: router)
-        router.push(detailsModule, animated: true, completion: nil)
+        listRouter.openDetails(film: film)
     }
 }
 
@@ -42,3 +39,4 @@ extension MoviesListPresenter: MoviesListInteractorOutput {
         userInterface?.show(data: data)
     }
 }
+

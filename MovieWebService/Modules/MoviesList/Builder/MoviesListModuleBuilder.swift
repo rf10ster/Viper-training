@@ -16,6 +16,7 @@ struct MoviesListModuleBuilder: ModuleBuilder {
         
         let list = MoviesListViewController.sbViewController()
         let presenter = MoviesListPresenter(interactor: interactor, router: router)
+        interactor.output = presenter
         presenter.userInterface = list
         list?.output = presenter
         

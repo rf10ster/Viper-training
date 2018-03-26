@@ -9,12 +9,12 @@
 class DetailsPresenter {
 
     weak var userInterface : DetailsViewInrerface?
-    let router: RouterProtocol
+    let router: DetailsRouterProtocol
     
     private var data: DetailsDisplayData
     
     init(router: RouterProtocol, film: Film) {
-        self.router = router
+        self.router = DetailsRouter(router: router)
         let firstActor = film.cast.first
         data = DetailsDisplayData(
             directorName: film.director.name,
@@ -35,6 +35,6 @@ extension DetailsPresenter: DetailsPresenterProtocol {
         userInterface?.setup(with: data)
     }
     func close(animated: Bool) {
-        router.popModule(animated: animated)
+        router.closeDetails()
     }
 }

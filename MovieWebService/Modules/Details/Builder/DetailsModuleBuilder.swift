@@ -15,6 +15,7 @@ struct DetailsModuleBuilder: ModuleBuilder {
         let view = DetailsViewController.sbViewController()
         let presenter = DetailsPresenter(router: router, film: data)
         view?.output = presenter
+        presenter.userInterface = view
         
         return view?.toPresent()
     }
