@@ -1,7 +1,0 @@
-platform :ios, "7.0"
-
-pod "AFNetworking"
-
-target :RamblerRssTests, :exclusive => true do
-   pod "OCMock"
-end
